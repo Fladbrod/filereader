@@ -1,5 +1,6 @@
 from typing import Dict, Any, List
 from fastapi import APIRouter
+import requests
 from file_readers import read_yaml_file, read_txt_file, read_xml_file, read_json_file, read_csv_file
 
 router = APIRouter()
@@ -28,3 +29,8 @@ async def get_xml_file() -> List[str]:
 async def get_yaml_file() -> Any:
     yaml_content = read_yaml_file('../sample.yaml')
     return yaml_content
+
+@router.get("/expressApiData")
+def get_express_api_data():
+    response = requests.get('http://127.0.0.1:3000/read-yaml').json()
+    return { "data": response }
